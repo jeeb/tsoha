@@ -1,0 +1,11 @@
+# Python stuff
+*.pyc
+*.swo
+*.swp
+*.swn
+
+# Logs
+logs/
+
+# Project settings
+tsoha/settings.py
