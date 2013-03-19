@@ -1,0 +1,10 @@
+::Discussion forum::
+
+toolset: django/sinatra
+main features:
+
+ * User registration and login
+ * Subforums
+ * Posts
+ * 
+
