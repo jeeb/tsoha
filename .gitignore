@@ -9,3 +9,6 @@ logs/
 
 # Project settings
 tsoha/settings.py
+
+# Development SQLite3 DB
+*.sqlite
