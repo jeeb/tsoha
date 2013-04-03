@@ -5,6 +5,8 @@ from forums import views
 urlpatterns = patterns('',
 	# ex: /forums/
 	url(r'^$', views.index, name='index'),
+	# ex: /forums/forum/5
+	url(r'^forum/(?P<forum_id>\d+)$', views.show_forum, name='show_forum'),
 	# ex: /forums/thread/5
 	url(r'^thread/(?P<thread_id>\d+)$', views.show_thread, name='show_thread'),
 	# ex: /forums/post/5

@@ -6,6 +6,10 @@ from django.http import HttpResponse
 def index(request):
 	return HttpResponse("Hello, world. Saatana.")
 
+# Shows contents of a (sub)forum
+def show_forum(request, forum_id):
+	return HttpResponse("You're looking at forum %s." % forum_id)
+
 # Shows contents of a single thread
 def show_thread(request, thread_id):
 	return HttpResponse("You're looking at thread %s." % thread_id)
