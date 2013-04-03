@@ -1,6 +1,9 @@
 # Create your views here.
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
+from django.shortcuts import get_object_or_404
+
+from forums.models import Post
 
 # General index
 def index(request):
@@ -16,7 +19,13 @@ def show_thread(request, thread_id):
 
 # Shows contents of a single post
 def show_post(request, post_id):
-	return HttpResponse("You're looking at post %s." % post_id)
+	# first try finding the post and grab it
+	post = get_object_or_404(Post, pk=post_id)
+	# Render it
+	if post.is_op():
+		return HttpResponse("<h1>%s :: %s</h1><p>%s</p>" % (post.subforum.title, post.title, post.content))
+	else:
+		return HttpResponse("<h1>%s :: %s :: %s</h1><p>%s</p>" % (post.subforum.title, post.parent.title, post.title, post.content))
 
 # Lets you add a new post
 def add_post(request):
