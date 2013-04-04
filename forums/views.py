@@ -13,13 +13,16 @@ def index(request):
 def show_forum(request, forum_id):
 	# First try finding the (sub)forum
 	forum = get_object_or_404(Subforum, pk=forum_id)
-	# Render it
+
+	# Start the list of the posts
 	text = "<ul>"
-
+	# Grab all posts in a newer-first order
 	for p in Post.objects.filter(subforum=forum_id).filter(parent=None).order_by('-pub_date'):
-		text += "<li>" + p.title + "</li>"
-
+		text += "<li>" + p.title + "</li>" # Add them to the list
+	# End the list of the posts
 	text += "</ul>"
+
+	# Render test page
 	if forum.is_root_cat():
 		return HttpResponse("<h1>%s</h1><p>%s</p>" % (forum.title, text))
 	else:
