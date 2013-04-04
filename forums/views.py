@@ -14,17 +14,17 @@ def show_forum(request, forum_id):
 	# First try finding the (sub)forum
 	forum = get_object_or_404(Subforum, pk=forum_id)
 
-	# Start the list of the posts / subforums
+	# Start the list of the threads / subforums
 	thread_list = "<ul>"
 
 	# Grab all subforums that are children of this forum
 	for sf in Subforum.objects.filter(parent=forum_id):
 		thread_list += "<li>" + sf.title + "</li>" # Add them to the list
 
-	# Grab all posts in a newer-first order
-	for p in Post.objects.filter(subforum=forum_id).filter(parent=None).order_by('-pub_date'):
-		thread_list += "<li>" + p.title + "</li>" # Add them to the list
-	# End the list of the posts
+	# Grab all threads of the subforum in a newer-first order
+	for t in Post.objects.filter(subforum=forum_id).filter(parent=None).order_by('-pub_date'):
+		thread_list += "<li>" + t.title + "</li>" # Add them to the list
+	# End the list of the threads
 	thread_list += "</ul>"
 
 	# Render test page
