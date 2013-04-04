@@ -3,7 +3,7 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 
-from forums.models import Post
+from forums.models import Post, Subforum
 
 # General index
 def index(request):
@@ -11,7 +11,19 @@ def index(request):
 
 # Shows contents of a (sub)forum
 def show_forum(request, forum_id):
-	return HttpResponse("You're looking at forum %s." % forum_id)
+	# First try finding the (sub)forum
+	forum = get_object_or_404(Subforum, pk=forum_id)
+	# Render it
+	text = "<ul>"
+
+	for p in Post.objects.filter(subforum=forum_id).filter(parent=None).order_by('-pub_date'):
+		text += "<li>" + p.title + "</li>"
+
+	text += "</ul>"
+	if forum.is_root_cat():
+		return HttpResponse("<h1>%s</h1><p>%s</p>" % (forum.title, text))
+	else:
+		return HttpResponse("<h1>%s :: %s</h1><p>%s</p>" % (forum.parent.title, forum.title, text))
 
 # Shows contents of a single thread
 def show_thread(request, thread_id):
