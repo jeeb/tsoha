@@ -14,19 +14,24 @@ def show_forum(request, forum_id):
 	# First try finding the (sub)forum
 	forum = get_object_or_404(Subforum, pk=forum_id)
 
-	# Start the list of the posts
-	text = "<ul>"
+	# Start the list of the posts / subforums
+	thread_list = "<ul>"
+
+	# Grab all subforums that are children of this forum
+	for sf in Subforum.objects.filter(parent=forum_id):
+		thread_list += "<li>" + sf.title + "</li>" # Add them to the list
+
 	# Grab all posts in a newer-first order
 	for p in Post.objects.filter(subforum=forum_id).filter(parent=None).order_by('-pub_date'):
-		text += "<li>" + p.title + "</li>" # Add them to the list
+		thread_list += "<li>" + p.title + "</li>" # Add them to the list
 	# End the list of the posts
-	text += "</ul>"
+	thread_list += "</ul>"
 
 	# Render test page
 	if forum.is_root_cat():
-		return HttpResponse("<h1>%s</h1><p>%s</p>" % (forum.title, text))
+		return HttpResponse("<h1>%s</h1><p>%s</p>" % (forum.title, thread_list))
 	else:
-		return HttpResponse("<h1>%s :: %s</h1><p>%s</p>" % (forum.parent.title, forum.title, text))
+		return HttpResponse("<h1>%s :: %s</h1><p>%s</p>" % (forum.parent.title, forum.title, thread_list))
 
 # Shows contents of a single thread
 def show_thread(request, thread_id):
