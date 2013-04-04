@@ -7,7 +7,11 @@ from forums.models import Post, Subforum
 
 # General index
 def index(request):
-	return HttpResponse("Hello, world. Saatana.")
+	forum_list = "<ul>"
+	for f in Subforum.objects.filter(parent=None):
+		forum_list += "<li>" + f.title + "</li>"
+	forum_list += "</ul>"
+	return HttpResponse("<h1>Le forum!</h1><p>%s</p>" % forum_list)
 
 # Shows contents of a (sub)forum
 def show_forum(request, forum_id):
