@@ -47,11 +47,15 @@ def show_thread(request, thread_id):
 def show_post(request, post_id):
     # first try finding the post and grab it
     post = get_object_or_404(Post, pk=post_id)
-    # Render it
-    if post.is_op():
-        return HttpResponse("<h1>%s :: %s</h1><p>%s</p>" % (post.subforum.title, post.title, post.content))
-    else:
-        return HttpResponse("<h1>%s :: %s :: %s</h1><p>%s</p>" % (post.subforum.title, post.parent.title, post.title, post.content))
+
+    # Load template and set context
+    template = loader.get_template('forums/show_post.html')
+    context  = {
+        'post': post,
+    }
+
+    # Render the view
+    return render(request, 'forums/show_post.html', context)
 
 # Lets you add a new post
 def add_post(request):
