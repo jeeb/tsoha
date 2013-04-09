@@ -1,17 +1,18 @@
 # Create your views here.
 
 from django.http import HttpResponse, Http404
-from django.shortcuts import get_object_or_404
+from django.template import Context, loader
+from django.shortcuts import get_object_or_404, render
 
 from forums.models import Post, Subforum
 
 # General index
 def index(request):
-    forum_list = "<ul>"
-    for f in Subforum.objects.filter(parent=None):
-        forum_list += "<li>" + f.title + "</li>"
-    forum_list += "</ul>"
-    return HttpResponse("<h1>Le forum!</h1><p>%s</p>" % forum_list)
+    forum_list = Subforum.objects.filter(parent=None)
+
+    template = loader.get_template('forums/index.html')
+    context  = {'forum_list': forum_list}
+    return render(request, 'forums/index.html', context)
 
 # Shows contents of a (sub)forum
 def show_forum(request, forum_id):

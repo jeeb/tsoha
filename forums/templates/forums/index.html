@@ -1,0 +1,9 @@
+{% if forum_list %}
+    <ul>
+    {% for forum in forum_list %}
+        <li><a href="{% url 'show_forum' forum.id %}">{{ forum.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Welp, no (sub)forums.</p>
+{% endif %}
