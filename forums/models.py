@@ -24,4 +24,7 @@ class Post(models.Model):
     def is_op(self):
         return (self.parent is None)
     def __unicode__(self):
-        return self.content
+        if self.is_op():
+            return self.title
+        else:
+            return self.content[:50]
