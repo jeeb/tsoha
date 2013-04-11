@@ -1,0 +1,35 @@
+- Installation Documentation -
+
+Requirements:
+    - Preferably some sort of *nix
+    - Python 2.7.x
+    - Virtualenv
+    - Some kind of compiler for the postgresql dependencies?
+
+Quick set-up howto:
+    - Clone the repository off of github or grab the source code for the project otherwise
+    - Setting up a virtualenv with distribute and the needed dependencies:
+        * 'virtualenv --distribute folder_name'
+            (Creates a virtual environment into directory "folder_name")
+        * 'source folder_name/bin/activate'
+            (Loads this virtual environment up in your current shell)
+        * Move to the project's root directory, where the requirements.txt resides
+        * 'pip install -r requirements.txt'
+            (Installs all the dependencies into this virtual python environment)
+    - Set up basic settings:
+        * Copy settings.py.template to be settings.py in tsoha/
+        * Set up the database information in settings.py (search for 'DATABASES')
+            (Simplest to set up is sqlite, set ENGINE to django.db.backends.sqlite3,
+             and NAME to the local file system file name of the database you want to
+             use. The file will be created if it doesn't exist already)
+    - Try syncdb'ing:
+        * 'python manage.py syncdb'
+            (Checks if database is connectable and creates the tables needed)
+            (You might be asked to create a superuser for administration)
+    - Try importing basic content into the database:
+        * 'python manage.py loaddata doc/initial_data.json'
+            (Imports the basic data in doc/initial_data.json to the database)
+    - Run the django web server for basic testing!
+        * 'python manage.py runserver'
+        * Connect to http://127.0.0.1:8000/forums/ for the actual forums, or
+          to http://127.0.0.1:8000/admin/ for (low-level) administration.
