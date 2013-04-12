@@ -3,6 +3,7 @@
 {% else %}
 <h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' forum.parent.id %}">{{ forum.parent.title }}</a> :: <a href="{% url 'show_forum' forum.id %}">{{ forum.title }}</a></h1>
 {% endif %}
+<a href="{% url 'add_thread' forum.id %}">Add new thread</a>
 {% if subforums or threads %}
     <ul>
         {% for f in subforums %}
@@ -15,3 +16,4 @@
 {% else %}
     <p>Welp, no threads in this (sub)forum.</p>
 {% endif %}
+<a href="{% url 'add_thread' forum.id %}">Add new thread</a>

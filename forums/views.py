@@ -57,6 +57,46 @@ def show_thread(request, thread_id):
 
     return render(request, 'forums/show_thread.html', context)
 
+def add_thread(request, forum_id):
+    # First try finding the (sub)forum
+    forum = get_object_or_404(Subforum, pk=forum_id)
+
+    # Load template
+    template = loader.get_template('forums/add_thread.html')
+
+    # We do different things for POST and GET
+    if request.method == 'POST':
+        # Grab the info from the post thingy
+        try:
+            title   = request.POST['title']
+            content = request.POST['content']
+        # If something goes wrong...
+        except (KeyError):
+            return render(request, 'forums/add_thread.html', {
+                'forum': forum,
+                'error_message': "You didn't provide needed data!",
+                })
+        # If we get both info out well?
+        else:
+            # If content is empty, error out
+            if not content or not title:
+                return render(request, 'forums/add_thread.html', {
+                    'forum': forum,
+                    'error_message': "Please do not leave content or title empty :< !",
+                    })
+
+            # Create and write post into the database, wee
+            p = Post(subforum=Subforum.objects.get(pk=forum.id),
+                     parent=None, title=title, content=content, pub_date=timezone.now())
+            p.save()
+
+            # For good measure, do a HttpResponseRedirect
+            return HttpResponseRedirect(reverse(show_thread, args=(p.id,)))
+    else:
+        return render(request, 'forums/add_thread.html', {
+            'forum': forum
+            })
+
 # Shows contents of a single post
 def show_post(request, post_id):
     # first try finding the post and grab it
@@ -89,7 +129,7 @@ def add_post(request, thread_id):
         except (KeyError):
             return render(request, 'forums/add_post.html', {
                 'thread': thread,
-                'error_message': "You didn't provide title or content!",
+                'error_message': "You didn't provide needed data!",
                 })
         # If we get both info out well?
         else:
