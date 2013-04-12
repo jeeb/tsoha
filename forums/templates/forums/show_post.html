@@ -1,7 +1,9 @@
+{% load docutils_stuff %}
+
 {% if post.is_op %}
 <h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' post.subforum.id %}">{{ post.subforum.title }}</a> :: <a href="{% url 'show_thread' post.id %}">{{ post.title }}</a></h1>
 {% else %}
 <h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' post.subforum.id %}">{{ post.subforum.title }}</a> :: <a href="{% url 'show_thread' post.parent.id %}">{{ post.parent.title }}</a></h1>
 {% endif %}
 <h2>{{ post.title }}</h2>
-<p>{{ post.content }}</p>
+<div>{{ post.content|escape|rst_to_html|safe }}</div>

@@ -1,3 +1,5 @@
+{% load docutils_stuff %}
+
 <h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' thread.subforum.id %}">{{ thread.subforum.title }}</a> :: <a href="{% url 'show_thread' thread.id %}">{{ thread.title }}</a></h1>
 <a href="{% url 'add_post' thread.id %}">Add new post</a>
 <ul>
@@ -6,9 +8,9 @@
         <h2>
             <a href="{% url 'show_post' p.id %}">{{ p.title }}</a>
         </h2>
-        <p>
-            {{ p.content }}
-        </p>
+        <div>
+            {{ p.content|escape|rst_to_html|safe }}
+        </div>
     </li>
 {% endfor %}
 </ul>

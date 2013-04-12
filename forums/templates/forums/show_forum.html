@@ -12,7 +12,7 @@
         {% for t in threads %}
         <li><a href="{% url 'show_thread' t.id %}">{{ t.title }}</a></li>
         {% endfor %}
-    <ul>
+    </ul>
 {% else %}
     <p>Welp, no threads in this (sub)forum.</p>
 {% endif %}
