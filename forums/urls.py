@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     # ex: /forums/post/5
     url(r'^post/(?P<post_id>\d+)$', views.show_post, name='show_post'),
     # ex: /forums/post/add
-    url(r'^post/add$', views.add_post, name='add_post'),
+    url(r'^thread/(?P<thread_id>\d+)/add$', views.add_post, name='add_post'),
     # ex: /forums/post/5/edit
     url(r'^post/(?P<post_id>\d+)/edit$', views.edit_post, name='edit_post'),
 )

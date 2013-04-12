@@ -1,9 +1,11 @@
 # Create your views here.
 
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import Context, loader
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Q
+from django.core.urlresolvers import reverse
+from django.utils import timezone
 
 from forums.models import Post, Subforum
 
@@ -70,8 +72,51 @@ def show_post(request, post_id):
     return render(request, 'forums/show_post.html', context)
 
 # Lets you add a new post
-def add_post(request):
-    return HttpResponse("You're trying to add a new post.")
+def add_post(request, thread_id):
+    # First try finding the thread
+    thread = get_object_or_404(Post, pk=thread_id, parent=None)
+
+    # Load template
+    template = loader.get_template('forums/add_post.html')
+
+    # We do different things for POST and GET
+    if request.method == 'POST':
+        # Grab the info from the post thingy
+        try:
+            title   = request.POST['title']
+            content = request.POST['content']
+        # If something goes wrong...
+        except (KeyError):
+            return render(request, 'forums/add_post.html', {
+                'thread': thread,
+                'error_message': "You didn't provide title or content!",
+                })
+        # If we get both info out well?
+        else:
+            # If content is empty, error out
+            if not content:
+                return render(request, 'forums/add_post.html', {
+                    'thread': thread,
+                    'error_message': "Please do not leave content empty :< !",
+                    })
+
+            # If title is empty we just use Re: <thread title>
+            if not title:
+                title = "Re: " + thread.title
+
+            # Create and write post into the database, wee
+            p = Post(subforum=Subforum.objects.get(pk=thread.subforum.id),
+                     parent=Post.objects.get(pk=thread.id), title=title,
+                     content=content, pub_date=timezone.now())
+            p.save()
+
+            # For good measure, do a HttpResponseRedirect
+            return HttpResponseRedirect(reverse(show_thread, args=(thread.id,)))
+    # And here is what GET n' shit does
+    else:
+        return render(request, 'forums/add_post.html', {
+            'thread': thread,
+            })
 
 # Lets you edit a post
 def edit_post(request, post_id):
