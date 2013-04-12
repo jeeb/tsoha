@@ -5,6 +5,10 @@ from forums import views
 urlpatterns = patterns('',
     # ex: /forums/
     url(r'^$', views.index, name='index'),
+    # ex: /login
+    url(r'^login$', views.log_in, name='log_in'),
+    # ex: /logout
+    url(r'^logout$', views.log_out, name='log_out'),
     # ex: /forums/forum/5
     url(r'^forum/(?P<forum_id>\d+)$', views.show_forum, name='show_forum'),
     # ex: /forums/forum/5/add
