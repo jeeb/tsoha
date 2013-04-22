@@ -1,0 +1,19 @@
+<h1><a href="{% url 'index' %}">←</a></h1>
+
+<h2>Log in to the system</h2>
+
+{% if form.errors %}
+<p><strong>Your username and password didn't match. Please try again.</strong></p>
+{% endif %}
+
+<form action="{% url 'django.contrib.auth.views.login' %}" method="post">
+    {% csrf_token %}
+    <dl>
+        <dt>{{ form.username.label_tag }}</dt>
+        <dd>{{ form.username }}</dd>
+        <dt>{{ form.password.label_tag }}</dt>
+        <dd>{{ form.password }}</dd>
+        <dt><input type="submit" value="Log in" /></dt>
+    </dl>
+    <input type="hidden" name="next" value="{{ next }}" />
+</form>

@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 from forums.models import Post, Subforum
 
@@ -180,6 +181,7 @@ def show_thread(request, thread_id):
     return render(request, 'forums/show_thread.html', context)
 
 # Lets you add a new thread into a (sub)forum
+@login_required()
 def add_thread(request, forum_id):
     # First try finding the (sub)forum
     forum = get_object_or_404(Subforum, pk=forum_id)
@@ -235,6 +237,7 @@ def show_post(request, post_id):
     return render(request, 'forums/show_post.html', context)
 
 # Lets you add a new post
+@login_required()
 def add_post(request, thread_id):
     # First try finding the thread
     thread = get_object_or_404(Post, pk=thread_id, parent=None)
