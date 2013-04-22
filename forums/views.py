@@ -24,61 +24,6 @@ def index(request):
     # Render the view
     return render(request, 'forums/index.html', context)
 
-def log_in(request):
-    template = loader.get_template('forums/login.html')
-
-    # Show an error if user is already authenticated.
-    if request.user.is_authenticated():
-        return render(request, 'forums/login.html', {
-            'error_message': "Trying to log in while being logged in, are we, " +
-            request.user.username + "?",
-            })
-    # If we are not already authenticated?
-    else:
-        # We do different things for POST and GET
-        if request.method == 'POST':
-            # Grab the info from the post thingy
-            try:
-                user_name = request.POST['user_name']
-                password  = request.POST['password']
-            # If something goes wrong...
-            except (KeyError):
-                return render(request, 'forums/login.html', {
-                    'error_message': "You didn't provide needed data!",
-                    })
-            # If we get both info out well?
-            else:
-                # Don't let user log in if uname/pw is empty
-                if not user_name or not password:
-                    return render(request, 'forums/login.html', {
-                        'error_message': "Gooby please... No empty user names or passwords",
-                        })
-
-                # Try authenticating with given credentials
-                user = authenticate(username=user_name, password=password)
-
-                # If the credentials match...
-                if user is not None:
-                    # And if the user is active, we log him in,
-                    # and take him back to index.
-                    if user.is_active:
-                        login(request, user)
-                        return HttpResponseRedirect(reverse(index))
-                    # And if the user is inactive we error out
-                    else:
-                        return render(request, 'forums/login.html', {
-                            'error_message': "Gooby please... You are an inactive user",
-                            })
-                # If credentials don't match, we error out
-                else:
-                    return render(request, 'forums/login.html', {
-                        'error_message': "Wrong user name or password Gooby",
-                        })
-
-        # GET stuff down here
-        else:
-            return render(request, 'forums/login.html')
-
 def log_out(request):
     if request.user.is_authenticated():
         logout(request)

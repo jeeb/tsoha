@@ -5,8 +5,6 @@ from forums import views
 urlpatterns = patterns('',
     # ex: /forums/
     url(r'^$', views.index, name='index'),
-    # ex: /login
-    url(r'^login/?$', views.log_in, name='log_in'),
     # ex: /logout
     url(r'^logout/?$', views.log_out, name='log_out'),
     # ex: /register
