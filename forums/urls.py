@@ -10,8 +10,6 @@ urlpatterns = patterns('',
     url(r'^accounts/login/?$',  login, name='login'),
     # ex: /accounts/logout/ , standard implementation
     url(r'^accounts/logout/?$', logout, name='logout'),
-    # ex: /logout
-    url(r'^logout/?$', views.log_out, name='log_out'),
     # ex: /register
     url(r'^register/?$', views.register, name='register'),
     # ex: /forums/forum/5

@@ -24,13 +24,6 @@ def index(request):
     # Render the view
     return render(request, 'forums/index.html', context)
 
-def log_out(request):
-    if request.user.is_authenticated():
-        logout(request)
-        return HttpResponseRedirect(reverse(index))
-    else:
-        return HttpResponseRedirect(reverse(index))
-
 def register(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse(index))
