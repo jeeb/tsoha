@@ -31,5 +31,5 @@ Quick set-up howto:
             (Imports the basic data in doc/initial_data.json to the database)
     - Run the django web server for basic testing!
         * 'python manage.py runserver'
-        * Connect to http://127.0.0.1:8000/forums/ for the actual forums, or
+        * Connect to http://127.0.0.1:8000/ for the actual forums, or
           to http://127.0.0.1:8000/admin/ for (low-level) administration.
