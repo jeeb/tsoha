@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 from forums.models import Post, Subforum
 
@@ -83,6 +84,64 @@ def log_out(request):
         return HttpResponseRedirect(reverse(index))
     else:
         return HttpResponseRedirect(reverse(index))
+
+def register(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse(index))
+
+    template = loader.get_template('forums/register.html')
+
+    # We do different things for POST and GET
+    if request.method == 'POST':
+        # Grab the info from the request
+        try:
+            user_name    = request.POST['user_name']
+            email        = request.POST['email']
+            password_1st = request.POST['password_1st']
+            password_2nd = request.POST['password_2nd']
+        # If something goes wrong...
+        except (KeyError):
+            return render(request, 'forums/register.html', {
+                'error_message': "You didn't provide needed data!",
+                })
+
+        # Do not let user register if there's not enough information
+        if not user_name or not password_1st or not password_2nd:
+            return render(request, 'forums/register.html', {
+                'error_message': "Gooby please... No empty user names or passwords.",
+                })
+
+        # Check password inputs for equality
+        if password_1st != password_2nd:
+            return render(request, 'forums/register.html', {
+                'error_message': "Gooby please... Your passwords do not match.",
+                })
+
+        # Set the final password variable
+        password = password_1st
+
+        # Do not let user to register if user name and password match
+        if password == user_name:
+            return render(request, 'forums/register.html', {
+                'error_message': "Gooby please... Do not use your exact user name as password.",
+                })
+
+        # After clearing all those obstacles we create a user!
+        User.objects.create_user(username=user_name, email=email, password=password)
+
+        user = authenticate(username=user_name, password=password)
+
+        # If the creation seems to have been successful...
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse(index))
+        else:
+            return render(request, 'forums/register.html', {
+                'error_message': "Gooby please... I have no idea what just happened, but you errored out.",
+                })
+    # GET stuff down here
+    else:
+        return render(request, 'forums/register.html')
 
 # Shows contents of a (sub)forum
 def show_forum(request, forum_id):

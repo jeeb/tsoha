@@ -2,7 +2,7 @@
 {% if user.is_authenticated %}
 <p>Welcome, {{ user.username }}. <a href="{% url 'log_out' %}">Log out</a></p>
 {% else %}
-<p>Welcome, user. Please <a href="{% url 'log_in' %}">log in</a> to enjoy all of the features of this forum.</p>
+<p>Welcome, user. Please <a href="{% url 'log_in' %}">log in</a> or <a href="{% url 'register' %}">register</a> to enjoy all of the features of this forum.</p>
 {% endif %}
 {% if forum_list %}
     <ul>
