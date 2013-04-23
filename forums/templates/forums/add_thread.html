@@ -9,9 +9,16 @@
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 <form action="{% url 'add_thread' forum.id %}" method="post">
-{% csrf_token %}
-<input name="title" size="30" type="text" />
-<textarea name="content" rows=10 cols=40 >
-</textarea>
-<input type="submit" value="Create thread" />
+    {% csrf_token %}
+    <dl>
+        <dt>Thread title</dt>
+        <dd><input name="title" size="30" type="text" /></dd>
+        <dt>Content</dt>
+        <dd>
+            <textarea name="content" rows=10 cols=40 >
+            </textarea>
+        </dd>
+        <dt><input type="submit" value="Create thread" /></dt>
+        <dt>(You can use RST markup in the post content)</dt>
+    </dl>
 </form>
