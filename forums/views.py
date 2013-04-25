@@ -44,6 +44,12 @@ def register(request):
                 'error_message': "You didn't provide needed data!",
                 })
 
+        # Do not let user register if there's already a user with that username
+        if User.objects.filter(username=user_name).count():
+            return render(request, 'forums/register.html', {
+                'error_message': "User name already exists in system, please select another user name.",
+                })
+
         # Do not let user register if there's not enough information
         if not user_name or not password_1st or not password_2nd:
             return render(request, 'forums/register.html', {
