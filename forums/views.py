@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-from forums.models import Post, Subforum
+from forums.models import Post, Thread, Subforum
 
 # General index
 def index(request):
@@ -95,15 +95,24 @@ def show_forum(request, forum_id):
 
     # Grab all subforums that are children of this forum
     subforums = Subforum.objects.filter(parent=forum_id)
+
     # Grab all threads of the current (sub)forum in a newer-first order
-    threads   = Post.objects.filter(subforum=forum_id).filter(parent=None).order_by('-pub_date')
+    threads   = Thread.objects.filter(subforum=forum_id).order_by('-creation_date')
+
+    # Get all sticky threads
+    sticky_threads = threads.filter(sticky=True)
+
+    # And then remove sticky threads from the list of threads
+    if sticky_threads.count() != 0:
+        threads = threads.exclude(sticky_threads)
 
     # Load template and set context
     template = loader.get_template('forums/show_forum.html')
     context  = {
-        'forum':     forum,
-        'subforums': subforums,
-        'threads':   threads,
+        'forum':          forum,
+        'subforums':      subforums,
+        'sticky_threads': sticky_threads,
+        'threads':        threads,
     }
 
     # Render the view

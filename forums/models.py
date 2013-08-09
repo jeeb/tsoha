@@ -1,30 +1,42 @@
-from django.db import models
+from django.db                  import models
+from django.contrib.auth.models import User
 
-# Create your models here.
+# The database models for the forum
+
+_max_length = 200
 
 class Subforum(models.Model):
     # if parent == null, this is a root subforum
-    parent = models.ForeignKey('self', null=True, blank=True)
-    # content below
-    title  = models.CharField(max_length=200)
+    parent      = models.ForeignKey('self', null=True, blank=True)
+    # title of the subforum
+    title       = models.CharField(max_length=_max_length)
+    # description of the subforum
+    description = models.CharField(max_length=_max_length)
     def is_root_cat(self):
         return (self.parent is None)
     def __unicode__(self):
         return self.title
 
+class Thread(models.Model):
+    # subforum in which this thread is located
+    subforum      = models.ForeignKey(Subforum)
+    # the user who created this thread originally
+    creator       = models.ForeignKey(User)
+    title         = models.CharField(max_length=_max_length)
+    creation_date = models.DateTimeField('date created')
+    # whether or not this thread will be stuck on the top of the thread listing
+    sticky        = models.BooleanField()
+    def __unicode__(self):
+        return self.title
+
 class Post(models.Model):
-    # subforum in which this post is set
-    subforum = models.ForeignKey(Subforum)
-    # parent post, if null, this is a 'thread'
-    parent   = models.ForeignKey('self', null=True, blank=True)
+    # thread in which this post is located
+    thread   = models.ForeignKey(Thread)
+    # the user who posted this post
+    poster   = models.ForeignKey(User)
     # content below
-    title    = models.CharField(max_length=200)
+    title    = models.CharField(max_length=_max_length)
     content  = models.TextField()
     pub_date = models.DateTimeField('date posted')
-    def is_op(self):
-        return (self.parent is None)
     def __unicode__(self):
-        if self.is_op():
-            return self.title
-        else:
             return self.content[:50]
