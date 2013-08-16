@@ -121,8 +121,8 @@ def show_forum(request, forum_id):
 # Shows contents of a single thread
 def show_thread(request, thread_id):
     # First try finding the thread and grab its posts ordered older-first
-    thread = get_object_or_404(Post, pk=thread_id, parent=None)
-    posts  = Post.objects.filter(Q(parent=thread_id) | Q(pk=thread_id)).order_by('pub_date')
+    thread = get_object_or_404(Thread, pk=thread_id)
+    posts  = Post.objects.filter(thread=thread_id).order_by('pub_date')
 
     # Load template and set context
     template = loader.get_template('forums/show_thread.html')
