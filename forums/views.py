@@ -164,8 +164,26 @@ def add_thread(request, forum_id):
                     })
 
             # Create and write post into the database, wee
-            p = Post(subforum=Subforum.objects.get(pk=forum.id),
-                     parent=None, title=title, content=content, pub_date=timezone.now())
+            t = Thread(subforum=Subforum.objects.get(pk=forum.id),
+                       creator=request.user, title=title, creation_date=timezone.now(),
+                       sticky=False)
+            if not t:
+                return render(request, 'forums/add_thread.html', {
+                    'forum': forum,
+                    'error_message': "Gooby please... I have no idea what just happened, but you errored out (thread object creation).",
+                    })
+
+            t.save()
+
+            p = Post(thread=t, poster=request.user, title=title, content=content,
+                     pub_date=timezone.now())
+            if not p:
+                t.delete()
+                return render(request, 'forums/add_thread.html', {
+                    'forum': forum,
+                    'error_message': "Gooby please... I have no idea what just happened, but you errored out (post object creation).",
+                    })
+
             p.save()
 
             # For good measure, do a HttpResponseRedirect
