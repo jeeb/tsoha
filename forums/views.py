@@ -211,7 +211,7 @@ def show_post(request, post_id):
 @login_required()
 def add_post(request, thread_id):
     # First try finding the thread
-    thread = get_object_or_404(Post, pk=thread_id, parent=None)
+    thread = get_object_or_404(Thread, pk=thread_id)
 
     # Load template
     template = loader.get_template('forums/add_post.html')
@@ -242,8 +242,7 @@ def add_post(request, thread_id):
                 title = "Re: " + thread.title
 
             # Create and write post into the database, wee
-            p = Post(subforum=Subforum.objects.get(pk=thread.subforum.id),
-                     parent=Post.objects.get(pk=thread.id), title=title,
+            p = Post(thread=thread, poster=request.user, title=title,
                      content=content, pub_date=timezone.now())
             p.save()
 
