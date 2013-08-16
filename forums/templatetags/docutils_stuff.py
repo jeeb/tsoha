@@ -9,6 +9,7 @@ register = template.Library()
 docutils_defaults = {
     'file_insertion_enabled': 0,
     'raw_enabled': 0,
+    'math_output': 'MathML',
     '_disable_config': 1,
 }
 
