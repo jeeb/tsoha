@@ -187,7 +187,7 @@ def add_thread(request, forum_id):
             p.save()
 
             # For good measure, do a HttpResponseRedirect
-            return HttpResponseRedirect(reverse(show_thread, args=(p.id,)))
+            return HttpResponseRedirect(reverse(show_thread, args=(t.id,)))
     else:
         return render(request, 'forums/add_thread.html', {
             'forum': forum
