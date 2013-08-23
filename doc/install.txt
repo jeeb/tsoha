@@ -14,8 +14,9 @@ Quick set-up howto:
         * 'source folder_name/bin/activate'
             (Loads this virtual environment up in your current shell)
         * Move to the project's root directory, where the requirements.txt resides
-        * 'pip install -r requirements.txt'
-            (Installs all the dependencies into this virtual python environment)
+        * 'pip install -r requirements-sqlite.txt' OR 'pip install -r requirements.txt'
+            (Installs all the dependencies into this virtual python environment.
+             The -sqlite version is simpler and does not require much setup)
     - Set up basic settings:
         * Copy settings.py.template to be settings.py in tsoha/
         * Set up the database information in settings.py (search for 'DATABASES')
@@ -26,7 +27,7 @@ Quick set-up howto:
         * 'python manage.py syncdb'
             (Checks if database is connectable and creates the tables needed)
             (You might be asked to create a superuser for administration)
-    - Try importing basic content into the database:
+    - Try importing basic content into the database (not yet available):
         * 'python manage.py loaddata doc/initial_data.json'
             (Imports the basic data in doc/initial_data.json to the database)
     - Run the django web server for basic testing!
