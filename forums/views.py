@@ -104,7 +104,7 @@ def show_forum(request, forum_id):
 
     # And then remove sticky threads from the list of threads
     if sticky_threads.count() != 0:
-        threads = threads.exclude(sticky_threads)
+        threads = threads.exclude(id__in=sticky_threads)
 
     # Load template and set context
     template = loader.get_template('forums/show_forum.html')
