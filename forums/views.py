@@ -260,12 +260,45 @@ def edit_post(request, post_id):
     # First try finding the post
     post = get_object_or_404(Post, pk=post_id)
 
+    # One can only edit his/her own posts
+    if request.user != post.poster:
+        return HttpResponse("Not correct user %s , post owned by %s !" % ( request.user.username, post.poster.username ))
+
     # Add template loading here after adding the template...
     # template = loader.get_template('forums/edit_post.html')
 
     # We do different things for POST and GET
     if request.method == 'POST':
-        return HttpResponse("You're trying to edit post %s." % post_id)
+        # Grab the info from the post thingy
+        try:
+            title   = request.POST['title']
+            content = request.POST['content']
+        # If something goes wrong...
+        except (KeyError):
+            return render(request, 'forums/edit_post.html', {
+                'post': post,
+                'error_message': "You didn't provide needed data!",
+                })
+        # If we get both info out well?
+        else:
+            # If content is empty, error out
+            if not content:
+                return render(request, 'forums/edit_post.html', {
+                    'post': post,
+                    'error_message': "Please do not leave content empty :< !",
+                    })
+
+            # If title is empty, edit only the content
+            if not title:
+                post.content = content
+                post.save()
+            else:
+                # Add extra stuff for "if_op"
+                post.title   = title
+                post.content = content
+                post.save()
+
+            return HttpResponse("Successfully edited post %s." % post_id)
     # And here is what GET n' shit does (endif method == POST)
     else:
         return HttpResponse("You're trying to edit post %s." % post_id)
