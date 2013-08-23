@@ -255,5 +255,17 @@ def add_post(request, thread_id):
             })
 
 # Lets you edit a post
+@login_required()
 def edit_post(request, post_id):
-    return HttpResponse("You're trying to edit post %s." % post_id)
+    # First try finding the post
+    post = get_object_or_404(Post, pk=post_id)
+
+    # Add template loading here after adding the template...
+    # template = loader.get_template('forums/edit_post.html')
+
+    # We do different things for POST and GET
+    if request.method == 'POST':
+        return HttpResponse("You're trying to edit post %s." % post_id)
+    # And here is what GET n' shit does (endif method == POST)
+    else:
+        return HttpResponse("You're trying to edit post %s." % post_id)
