@@ -7,10 +7,11 @@
     <li>
         <h2>
             <a href="{% url 'show_post' p.id %}">{{ p.title }}</a> (<a href="{% url 'edit_post' p.id %}">edit post</a>)
-        </h2>
+        </h2> 
         <div>
             {{ p.content|escape|rst_to_html|safe }}
         </div>
+        <h4>by {{ p.poster }}</h4>
     </li>
 {% endfor %}
 </ul>
