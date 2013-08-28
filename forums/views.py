@@ -302,3 +302,7 @@ def edit_post(request, post_id):
     # And here is what GET n' shit does (endif method == POST)
     else:
         return HttpResponse("You're trying to edit post %s." % post_id)
+
+# Search functionality
+def search(request):
+    return HttpResponse("You're trying to search.")

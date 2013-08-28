@@ -24,4 +24,6 @@ urlpatterns = patterns('',
     url(r'^post/(?P<post_id>\d+)/?$', views.show_post, name='show_post'),
     # ex: /forums/post/5/edit
     url(r'^post/(?P<post_id>\d+)/edit$', views.edit_post, name='edit_post'),
+    # ex: search/
+    url(r'^search/?$',  views.search, name='search'),
 )
