@@ -8,19 +8,46 @@
 
 <div class="well">
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if error_message %}
+<div class="alert alert-danger">
+  <strong>{{ error_message }}</strong>
+</div>
+{% endif %}
 
-<form action="{% url 'register' %}" method="post" role="form">
+<p><strong></strong></p>
+
+<form action="{% url 'register' %}" method="post" role="form" class="form-horizontal">
     {% csrf_token %}
     <dl>
-        <dt>User name</dt>
-        <dd><input name="user_name" size="30" type="text" /></dd>
-        <dt>E-mail</dt>
-        <dd><input name="email" size="30" type="email" /></dd>
-        <dt>Password (input twice)</dt>
-        <dd><input name="password_1st" size="30" type="password" /></dd>
-        <dd><input name="password_2nd" size="30" type="password" /></dd>
-        <dt><input type="submit" value="Continue with registration" /></dt>
+        <div class="form-group">
+          <label for="userName" class="col-lg-2 control-label">User name</label>
+          <div class="col-lg-10">
+            <input name="user_name" type="text" class="form-control" id="userName" placeholder="User name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail" class="col-lg-2 control-label">E-mail</label>
+          <div class="col-lg-10">
+            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="your@email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPass1" class="col-lg-2 control-label">Password</label>
+          <div class="col-lg-10">
+            <input name="password_1st" type="password" class="form-control" id="inputPass1" placeholder="Password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPass2" class="col-lg-2 control-label">Password (again)</label>
+          <div class="col-lg-10">
+            <input name="password_2nd" type="password" class="form-control" id="inputPass2" placeholder="Password">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-lg-offset-2 col-lg-10">
+            <button type="submit" class="btn btn-default">Continue with registration</button>
+          </div>
+        </div>
     </dl>
 </form>
 
