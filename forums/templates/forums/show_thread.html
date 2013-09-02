@@ -1,22 +1,39 @@
 {% include "includes/start_tags.html" %}
+{% include "includes/navbar.html" %}
 {% load docutils_stuff %}
 {% load gravatar %}
+<div class="container theme-showcase">
 
-<h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' thread.subforum.id %}">{{ thread.subforum.title }}</a> :: <a href="{% url 'show_thread' thread.id %}">{{ thread.title }}</a></h1>
-<a href="{% url 'add_post' thread.id %}">Add new post</a>
-<ul>
+<div class="page-header">
+<h1><a href="{% url 'show_forum' thread.subforum.id %}">{{ thread.subforum.title }}</a> :: <a href="{% url 'show_thread' thread.id %}">{{ thread.title }}</a></h1>
+</div>
+
+<div class="well">
+<p><a href="{% url 'add_post' thread.id %}"><button type="button" class="btn btn-default">Add new post</button></a></p>
+
+<h3>{{ thread.title }}</h3>
+
 {% for p in posts %}
-    <li>
-        <h2>
-            <a href="{% url 'show_post' p.id %}">{{ p.title }}</a> (<a href="{% url 'edit_post' p.id %}">edit post</a>)
-        </h2> 
-        <img src="{% gravatar_url p.poster.email %}" alt="{{ p.poster }}'s avatar">
-        <div>
-            {{ p.content|escape|rst_to_html|safe }}
-        </div>
-        <h4>by {{ p.poster }}</h4>
-    </li>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="row">
+    <a href="{% url 'show_post' p.id %}"><h3 class="panel-title text-left col-xs-2">{{ p.title }}</h3></a>
+    <a href="{% url 'edit_post' p.id %}"><button type="button" class="btn btn-default btn-sm col-xs-1 pull-right">Edit post</button></a>
+    </div>
+  </div>
+  <div class="row">
+  <div class="panel-body col-xs-1   ">
+  <img src="{% gravatar_url p.poster.email %}" alt="{{ p.poster }}'s avatar">
+  </div>
+  <div class="panel-body">
+    {{ p.content|escape|rst_to_html|safe }}
+  </div>
+  </div>
+</div>
 {% endfor %}
-</ul>
-<a href="{% url 'add_post' thread.id %}">Add new post</a>
+
+<p><a href="{% url 'add_post' thread.id %}"><button type="button" class="btn btn-default">Add new post</button></a></p>
+</div>
+
+</div>
 {% include "includes/end_tags.html" %}

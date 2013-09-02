@@ -1,20 +1,45 @@
 {% include "includes/start_tags.html" %}
-<h1>Hjurpa djurpa forum index</h1>
+{% include "includes/navbar.html" %}
+<div class="container theme-showcase">
+
+<div class="page-header">
+<h1>Index</h1>
+</div>
+
+<div class="alert alert-success">
 {% if user.is_authenticated %}
-<p>Welcome, {{ user.username }}. <a href="{% url 'logout' %}">Log out</a></p>
+  Welcome, {{ user.username }}. <a href="{% url 'logout' %}">Log out
+{% else %}
+  Welcome, user. Please <a href="{% url 'login' %}">log in</a> or <a href="{% url 'register' %}">register</a> to enjoy all of the features of this forum.
+{% endif %}
+</div>
+
+<div class="well">
+
 {% if user.is_staff %}
-<p><a href="{% url 'add_forum' %}">Add</a> a forum?</p>
+<p><a href="{% url 'add_forum' %}"><button type="button" class="btn btn-default">Add a forum?</button></a></p>
 {% endif %}
-{% else %}
-<p>Welcome, user. Please <a href="{% url 'login' %}">log in</a> or <a href="{% url 'register' %}">register</a> to enjoy all of the features of this forum.</p>
-{% endif %}
+
 {% if forum_list %}
-    <ul>
+    <h3>Forums</h3>
+    <div class="list-group">
     {% for forum in forum_list %}
-        <li><a href="{% url 'show_forum' forum.id %}">{{ forum.title }}</a></li>
+    <a href="{% url 'show_forum' forum.id %}" class="list-group-item">
+      <h4 class="list-group-item-heading">{{ forum.title }}</h4>
+      <p class="list-group-item-text">{{ forum.description }}</p>
+    </a>
     {% endfor %}
-    </ul>
+    </div>
 {% else %}
-    <p>Welp, no (sub)forums.</p>
+    <ul class="list-group">
+      <li class="list-group-item">Welp, no subforums or threads in this (sub)forum.</li>
+    </ul>
 {% endif %}
+
+{% if user.is_staff %}
+<p><a href="{% url 'add_forum' %}"><button type="button" class="btn btn-default">Add a forum?</button></a></p>
+{% endif %}
+
+</div>
+</div>
 {% include "includes/end_tags.html" %}

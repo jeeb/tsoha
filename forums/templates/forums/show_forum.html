@@ -1,21 +1,50 @@
 {% include "includes/start_tags.html" %}
+{% include "includes/navbar.html" %}
+<div class="container theme-showcase">
+
+<div class="page-header">
 {% if forum.is_root_cat %}
-<h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' forum.id %}">{{ forum.title }}</a></h1>
+<h1><a href="{% url 'show_forum' forum.id %}">{{ forum.title }}</a></h1>
 {% else %}
-<h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' forum.parent.id %}">{{ forum.parent.title }}</a> :: <a href="{% url 'show_forum' forum.id %}">{{ forum.title }}</a></h1>
+<h1><a href="{% url 'show_forum' forum.parent.id %}">{{ forum.parent.title }}</a> :: <a href="{% url 'show_forum' forum.id %}">{{ forum.title }}</a></h1>
 {% endif %}
-<a href="{% url 'add_thread' forum.id %}">Add new thread</a>
-{% if subforums or threads %}
-    <ul>
+</div>
+
+<div class="well">
+
+<p><a href="{% url 'add_thread' forum.id %}"><button type="button" class="btn btn-default">Add new thread</button></a> {% if user.is_staff %}<a href="{% url 'add_forum' %}"><button type="button" class="btn btn-default">Add a forum?</button></a>{% endif %}</p>
+
+    <h3>Subforums</h3>
+    {% if subforums %}
+    <div class="list-group">
         {% for f in subforums %}
-        <li><a href="{% url 'show_forum' f.id %}">{{ f.title }}</a></li>
+        <a href="{% url 'show_forum' f.id %}" class="list-group-item">
+          <h4 class="list-group-item-heading">{{ f.title }}</h4>
+          <p class="list-group-item-text">{{ f.description }}</p>
+        </a>
         {% endfor %}
-        {% for t in threads %}
-        <li><a href="{% url 'show_thread' t.id %}">{{ t.title }}</a></li>
-        {% endfor %}
+    </div>
+    {% else %}
+    <ul class="list-group">
+      <li class="list-group-item">No subforums in this (sub)forum.</li>
     </ul>
-{% else %}
-    <p>Welp, no threads in this (sub)forum.</p>
-{% endif %}
-<a href="{% url 'add_thread' forum.id %}">Add new thread</a>
+    {% endif %}
+
+    <h3>Threads</h3>
+    {% if threads %}
+    <div class="list-group">
+        {% for t in threads %}
+        <a href="{% url 'show_thread' t.id %}" class="list-group-item">{{ t.title }}</a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <ul class="list-group">
+      <li class="list-group-item">No threads in this (sub)forum.</li>
+    </ul>
+    {% endif %}
+
+<p><a href="{% url 'add_thread' forum.id %}"><button type="button" class="btn btn-default">Add new thread</button></a> {% if user.is_staff %}<a href="{% url 'add_forum' %}"><button type="button" class="btn btn-default">Add a forum?</button></a>{% endif %}</p>
+
+</div>
+</div>
 {% include "includes/end_tags.html" %}
