@@ -1,5 +1,7 @@
+{% include "includes/start_tags.html" %}
 {% load docutils_stuff %}
 
 <h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' post.thread.subforum.id %}">{{ post.thread.subforum.title }}</a> :: <a href="{% url 'show_thread' post.thread.id %}">{{ post.thread.title }}</a></h1>
 <h2>{{ post.title }}</h2>
 <div>{{ post.content|escape|rst_to_html|safe }}</div>
+{% include "includes/end_tags.html" %}

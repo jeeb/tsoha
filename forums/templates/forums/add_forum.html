@@ -1,3 +1,4 @@
+{% include "includes/start_tags.html" %}
 <h1><a href="{% url 'index' %}">←</a>
 
 <h2>Add a new (sub)forum</h2>
@@ -9,3 +10,4 @@
     {{ form.as_p }}
     <input type="submit" value="Add forum" /></dt>
 </form>
+{% include "includes/end_tags.html" %}

@@ -1,3 +1,4 @@
+{% include "includes/start_tags.html" %}
 {% load docutils_stuff %}
 {% load gravatar %}
 
@@ -18,3 +19,4 @@
 {% endfor %}
 </ul>
 <a href="{% url 'add_post' thread.id %}">Add new post</a>
+{% include "includes/end_tags.html" %}

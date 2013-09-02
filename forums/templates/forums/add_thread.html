@@ -1,3 +1,4 @@
+{% include "includes/start_tags.html" %}
 {% if forum.is_root_cat %}
 <h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' forum.id %}">{{ forum.title }}</a></h1>
 {% else %}
@@ -21,3 +22,4 @@
         <dt>(You can use RST markup in the post content)</dt>
     </dl>
 </form>
+{% include "includes/end_tags.html" %}

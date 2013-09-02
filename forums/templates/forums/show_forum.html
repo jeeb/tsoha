@@ -1,3 +1,4 @@
+{% include "includes/start_tags.html" %}
 {% if forum.is_root_cat %}
 <h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' forum.id %}">{{ forum.title }}</a></h1>
 {% else %}
@@ -17,3 +18,4 @@
     <p>Welp, no threads in this (sub)forum.</p>
 {% endif %}
 <a href="{% url 'add_thread' forum.id %}">Add new thread</a>
+{% include "includes/end_tags.html" %}

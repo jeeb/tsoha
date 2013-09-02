@@ -1,3 +1,4 @@
+{% include "includes/start_tags.html" %}
 <h1><a href="{% url 'index' %}">←</a></h1>
 
 <h2>Log in to the system</h2>
@@ -17,3 +18,4 @@
     </dl>
     <input type="hidden" name="next" value="{{ next }}" />
 </form>
+{% include "includes/end_tags.html" %}

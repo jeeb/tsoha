@@ -1,3 +1,4 @@
+{% include "includes/start_tags.html" %}
 <h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' thread.subforum.id %}">{{ thread.subforum.title }}</a> :: <a href="{% url 'show_thread' thread.id %}">{{ thread.title }}</a></h1>
 
 <h2>Post a new post in thread</h2>
@@ -17,3 +18,4 @@
         <dt>(You can use RST markup in the post content)</dt>
     </dl>
 </form>
+{% include "includes/end_tags.html" %}
