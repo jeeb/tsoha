@@ -123,6 +123,10 @@ def add_forum(request):
     # Load template
     template = loader.get_template('forums/add_forum.html')
 
+    # TODO: Implement proper error page
+    if not request.user.is_staff:
+        return HttpResponseRedirect(reverse(index))
+
     if request.method == 'POST':
         # Try to create a form from the POST data
         form = SubforumForm(request.POST)
