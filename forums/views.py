@@ -216,7 +216,7 @@ def add_thread(request, forum_id):
             t.save()
 
             p = Post(thread=t, poster=request.user, title=title, content=content,
-                     pub_date=timezone.now())
+                    is_op=True, pub_date=timezone.now())
             if not p:
                 t.delete()
                 return render(request, 'forums/add_thread.html', {

@@ -23,7 +23,6 @@ class Thread(models.Model):
     subforum      = models.ForeignKey(Subforum)
     # the user who created this thread originally
     creator       = models.ForeignKey(User)
-    op            = models.ForeignKey('Post', related_name='+')
     title         = models.CharField(max_length=_max_length)
     creation_date = models.DateTimeField('date created')
     # whether or not this thread will be stuck on the top of the thread listing
@@ -39,6 +38,7 @@ class Post(models.Model):
     # content below
     title    = models.CharField(max_length=_max_length)
     content  = models.TextField()
+    is_op    = models.BooleanField(default=False)
     pub_date = models.DateTimeField('date posted')
     def __unicode__(self):
             return self.content[:50]
