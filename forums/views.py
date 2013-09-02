@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-from forums.models import Post, Thread, Subforum
+from forums.models import Post, Thread, Subforum, SubforumForm
 
 # General index
 def index(request):
@@ -117,6 +117,47 @@ def show_forum(request, forum_id):
 
     # Render the view
     return render(request, 'forums/show_forum.html', context)
+
+@login_required()
+def add_forum(request):
+    # Load template
+    template = loader.get_template('forums/add_forum.html')
+
+    if request.method == 'POST':
+        # Try to create a form from the POST data
+        form = SubforumForm(request.POST)
+
+        if form.is_valid():
+            parent      = form.cleaned_data['parent']
+            title       = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+
+            if not title:
+                return render(request, 'forums/add_forum.html', {
+                    'form': form,
+                    'error_message': "Please do not leave title empty :< !"
+                    })
+
+            f = Subforum(parent=parent, title=title,
+                         description=description)
+            if not f:
+                return render(request, 'forums/add_forum.html', {
+                    'form': form,
+                    'error_message': "Subforum object creation failed :< !"
+                    })
+
+            f.save()
+            return HttpResponseRedirect(reverse(add_forum))
+        else:
+            return render(request, 'forums/add_forum.html', {
+                'form': form,
+                'error_message': "Invalid data :< !"
+                })
+    else:
+        form = SubforumForm()
+        return render(request, 'forums/add_forum.html', {
+            'form': form,
+            })
 
 # Shows contents of a single thread
 def show_thread(request, thread_id):

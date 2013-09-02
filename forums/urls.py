@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     url(r'^accounts/logout/?$', logout, name='logout'),
     # ex: /register
     url(r'^register/?$', views.register, name='register'),
+    # ex: forum/add/
+    url(r'^forum/add/?$', views.add_forum, name='add_forum'),
     # ex: /forums/forum/5
     url(r'^forum/(?P<forum_id>\d+)/?$', views.show_forum, name='show_forum'),
     # ex: /forums/forum/5/add
