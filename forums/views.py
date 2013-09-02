@@ -264,8 +264,8 @@ def edit_post(request, post_id):
     if request.user != post.poster:
         return HttpResponse("Not correct user %s , post owned by %s !" % ( request.user.username, post.poster.username ))
 
-    # Add template loading here after adding the template...
-    # template = loader.get_template('forums/edit_post.html')
+    # Load the template
+    template = loader.get_template('forums/edit_post.html')
 
     # We do different things for POST and GET
     if request.method == 'POST':
@@ -301,7 +301,9 @@ def edit_post(request, post_id):
             return HttpResponse("Successfully edited post %s." % post_id)
     # And here is what GET n' shit does (endif method == POST)
     else:
-        return HttpResponse("You're trying to edit post %s." % post_id)
+        return render(request, 'forums/edit_post.html', {
+            'post': post,
+            })
 
 # Search functionality
 def search(request):
