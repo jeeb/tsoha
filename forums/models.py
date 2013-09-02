@@ -8,7 +8,7 @@ _max_length = 200
 
 class Subforum(models.Model):
     # if parent == null, this is a root subforum
-    parent      = models.ForeignKey('self', null=True)
+    parent      = models.ForeignKey('self', null=True, blank=True)
     # title of the subforum
     title       = models.CharField(max_length=_max_length)
     # description of the subforum
