@@ -1,5 +1,6 @@
 from django.db                  import models
 from django.contrib.auth.models import User
+from django.forms               import ModelForm
 
 # The database models for the forum
 
@@ -41,3 +42,10 @@ class Post(models.Model):
     pub_date = models.DateTimeField('date posted')
     def __unicode__(self):
             return self.content[:50]
+
+# Model-to-form generators
+
+class SubforumForm(ModelForm):
+    class Meta:
+        model  = Subforum
+        fields = ['parent', 'title', 'description']
