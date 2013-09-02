@@ -1,12 +1,16 @@
 {% include "includes/start_tags.html" %}
 {% include "includes/navbar.html" %}
-<h1><a href="{% url 'index' %}">←</a></h1>
+<div class="container theme-showcase">
 
-<h2>Register to the bulletin board system</h2>
+<div class="page-header">
+<h1>Register to the bulletin board system</h1>
+</div>
+
+<div class="well">
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'register' %}" method="post">
+<form action="{% url 'register' %}" method="post" role="form">
     {% csrf_token %}
     <dl>
         <dt>User name</dt>
@@ -19,4 +23,8 @@
         <dt><input type="submit" value="Continue with registration" /></dt>
     </dl>
 </form>
+
+</div>
+
+</div>
 {% include "includes/end_tags.html" %}
