@@ -8,11 +8,11 @@ _max_length = 200
 
 class Subforum(models.Model):
     # if parent == null, this is a root subforum
-    parent      = models.ForeignKey('self', null=True, blank=True)
+    parent      = models.ForeignKey('self', null=True)
     # title of the subforum
     title       = models.CharField(max_length=_max_length)
     # description of the subforum
-    description = models.CharField(max_length=_max_length)
+    description = models.CharField(max_length=_max_length, blank=True)
     def is_root_cat(self):
         return (self.parent is None)
     def __unicode__(self):
