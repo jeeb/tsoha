@@ -257,8 +257,9 @@ def add_post(request, thread_id):
 # Lets you edit a post
 @login_required()
 def edit_post(request, post_id):
-    # First try finding the post
-    post = get_object_or_404(Post, pk=post_id)
+    # First try finding the post and thread
+    post   = get_object_or_404(Post, pk=post_id)
+    thread = get_object_or_404(Thread, pk=post.thread.id)
 
     # One can only edit his/her own posts
     if request.user != post.poster:
