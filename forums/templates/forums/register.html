@@ -18,7 +18,6 @@
 
 <form action="{% url 'register' %}" method="post" role="form" class="form-horizontal">
     {% csrf_token %}
-    <dl>
         <div class="form-group">
           <label for="userName" class="col-lg-2 control-label">User name</label>
           <div class="col-lg-10">
@@ -48,7 +47,6 @@
             <button type="submit" class="btn btn-default">Continue with registration</button>
           </div>
         </div>
-    </dl>
 </form>
 
 </div>
