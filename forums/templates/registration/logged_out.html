@@ -1,8 +1,16 @@
 {% include "includes/start_tags.html" %}
 {% include "includes/navbar.html" %}
-<h1><a href="{% url 'index' %}">←</a></h1>
+<div class="container theme-showcase">
 
-<h2>You have been logged out of the system</h2>
+<div class="page-header">
+<h1>You have been logged out of the system</h1>
+</div>
 
-<p>If you wish to use our certain services again, please <a href="{% url 'login' %}">log in</a></p>
+<div class="well">
+<div class="alert alert-success">
+<strong>You have been logged out.</strong> If you wish to use our certain services again, please <a href="{% url 'login' %}">log in</a> again.
+</div>
+</div>
+
+</div>
 {% include "includes/end_tags.html" %}
