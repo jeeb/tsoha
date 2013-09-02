@@ -1,3 +1,5 @@
+{% include "includes/start_tags.html" %}
+
 <h1>Hjurpa djurpa forum index</h1>
 {% if user.is_authenticated %}
 <p>Welcome, {{ user.username }}. <a href="{% url 'logout' %}">Log out</a></p>
@@ -16,3 +18,5 @@
 {% else %}
     <p>Welp, no (sub)forums.</p>
 {% endif %}
+
+{% include "includes/end_tags.html" %}

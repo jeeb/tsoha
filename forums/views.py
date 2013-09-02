@@ -19,7 +19,8 @@ def index(request):
 
     # Load template and set context
     template = loader.get_template('forums/index.html')
-    context  = {'forum_list': forum_list}
+    context  = {'forum_list': forum_list,
+                'title': "Forum index"}
 
     # Render the view
     return render(request, 'forums/index.html', context)
