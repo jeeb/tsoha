@@ -132,12 +132,6 @@ def add_forum(request):
             title       = form.cleaned_data['title']
             description = form.cleaned_data['description']
 
-            if not title:
-                return render(request, 'forums/add_forum.html', {
-                    'form': form,
-                    'error_message': "Please do not leave title empty :< !"
-                    })
-
             f = Subforum(parent=parent, title=title,
                          description=description)
             if not f:
