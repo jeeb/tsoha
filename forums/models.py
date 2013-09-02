@@ -22,6 +22,7 @@ class Thread(models.Model):
     subforum      = models.ForeignKey(Subforum)
     # the user who created this thread originally
     creator       = models.ForeignKey(User)
+    op            = models.ForeignKey('Post', related_name='+')
     title         = models.CharField(max_length=_max_length)
     creation_date = models.DateTimeField('date created')
     # whether or not this thread will be stuck on the top of the thread listing
