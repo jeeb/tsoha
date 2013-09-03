@@ -31,6 +31,11 @@
     </div>
     <div class="form-group">
       <div class="col-lg-offset-2 col-lg-10">
+        <a href="{% url 'remove_post' post.id %}"><button type="button" class="btn btn-danger">Remove post (or thread)</button></a>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-offset-2 col-lg-10">
         (You can use RST markup in the post content)
       </div>
     </div>

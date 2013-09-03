@@ -359,6 +359,28 @@ def edit_post(request, post_id):
             'post': post,
             })
 
+# Lets you remove a post
+@login_required()
+def remove_post(request, post_id):
+    # First try finding the post and thread
+    post   = get_object_or_404(Post, pk=post_id)
+    thread = get_object_or_404(Thread, pk=post.thread.id)
+
+    subforum = thread.subforum
+
+    # One can only edit his/her own posts
+    if request.user != post.poster:
+        return HttpResponse("Not correct user %s , post owned by %s !" % ( request.user.username, post.poster.username ))
+
+    if post.is_op:
+        Post.objects.filter(thread=thread).delete()
+        thread.delete()
+        return HttpResponseRedirect(reverse(show_forum, args=(subforum.id,)))
+    else:
+        post.delete()
+        return HttpResponseRedirect(reverse(show_thread, args=(thread.id,)))
+
+
 # Search functionality
 def search(request):
     return HttpResponse("You're trying to search.")
