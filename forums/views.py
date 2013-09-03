@@ -158,6 +158,10 @@ def add_forum(request):
             'form': form,
             })
 
+@login_required()
+def edit_forum(request, forum_id):
+    return HttpResponse("You're trying to edit a forum.")
+
 # Shows contents of a single thread
 def show_thread(request, thread_id):
     # First try finding the thread and grab its posts ordered older-first

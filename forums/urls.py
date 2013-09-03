@@ -16,6 +16,8 @@ urlpatterns = patterns('',
     url(r'^forum/add/?$', views.add_forum, name='add_forum'),
     # ex: /forums/forum/5
     url(r'^forum/(?P<forum_id>\d+)/?$', views.show_forum, name='show_forum'),
+    # ex: forum/5/edit
+    url(r'^forum/(?P<forum_id>\d+)/edit$', views.edit_forum, name='edit_forum'),
     # ex: /forums/forum/5/add
     url(r'^forum/(?P<forum_id>\d+)/add$', views.add_thread, name='add_thread'),
     # ex: /forums/thread/5

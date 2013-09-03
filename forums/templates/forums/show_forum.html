@@ -12,7 +12,7 @@
 
 <div class="well">
 
-<p><a href="{% url 'add_thread' forum.id %}"><button type="button" class="btn btn-default">Add new thread</button></a> {% if user.is_staff %}<a href="{% url 'add_forum' %}"><button type="button" class="btn btn-default">Add a forum?</button></a>{% endif %}</p>
+<p><a href="{% url 'add_thread' forum.id %}"><button type="button" class="btn btn-default">Add new thread</button></a> {% if user.is_staff %}<a href="{% url 'edit_forum' forum.id %}"><button type="button" class="btn btn-default pull-right">Edit this subforum?</button></a><a href="{% url 'add_forum' %}"><button type="button" class="btn btn-default pull-right">Add a forum?</button></a>{% endif %}</p>
 
     <h3>Subforums</h3>
     {% if subforums %}
@@ -43,7 +43,7 @@
     </ul>
     {% endif %}
 
-<p><a href="{% url 'add_thread' forum.id %}"><button type="button" class="btn btn-default">Add new thread</button></a> {% if user.is_staff %}<a href="{% url 'add_forum' %}"><button type="button" class="btn btn-default">Add a forum?</button></a>{% endif %}</p>
+<p><a href="{% url 'add_thread' forum.id %}"><button type="button" class="btn btn-default">Add new thread</button></a> {% if user.is_staff %}<a href="{% url 'edit_forum' forum.id %}"><button type="button" class="btn btn-default pull-right">Edit this subforum?</button></a><a href="{% url 'add_forum' %}"><button type="button" class="btn btn-default pull-right">Add a forum?</button></a>{% endif %}</p>
 
 </div>
 </div>
