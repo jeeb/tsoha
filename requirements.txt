@@ -2,7 +2,9 @@ Django==1.5.1
 Pygments==1.6
 argparse==1.2.1
 distribute==0.6.34
-dj-database-url==0.2.1
+dj-database-url==0.2.2
+dj-static==0.0.5
 docutils==0.10
-psycopg2==2.4.6
-wsgiref==0.1.2
+gunicorn==18.0
+psycopg2==2.5.1
+static==0.4
