@@ -3,14 +3,14 @@
 <div class="container theme-showcase">
 
 <div class="page-header">
-<h1>Add a new (sub)forum</h1>
+<h1>Edit the forum <a href="{% url 'show_forum' forum.id %}">{{ forum }}</a></h1>
 </div>
 
 <div class="well">
 
 {% if error_message %}<div class="alert alert-danger"><strong>{{ error_message }}</strong></div>{% endif %}
 
-<form action="{% url 'add_forum' %}" method="post" role="form" class="form-horizontal">
+<form action="{% url 'edit_forum' forum.id %}" method="post" role="form" class="form-horizontal">
     {% csrf_token %}
     <div class="form-group">
       <label for="id_parent" class="col-lg-2 control-label">{{form.parent.label }}</label>
@@ -21,21 +21,23 @@
     <div class="form-group">
       <label for="id_title" class="col-lg-2 control-label">{{form.title.label }}</label>
       <div class="col-lg-10">
-        <input name="{{ form.title.html_name }}" type="text" class="form-control" id="id_title" placeholder="Forum title">
+        <input name="{{ form.title.html_name }}" type="text" class="form-control" value="{{ form.title.value }}" id="id_title" placeholder="Forum title">
       </div>
     </div>
     <div class="form-group">
       <label for="id_description" class="col-lg-2 control-label">{{form.description.label }}</label>
       <div class="col-lg-10">
-        <input name="{{ form.description.html_name }}" type="text" class="form-control" id="id_description" placeholder="Description">
+        <input name="{{ form.description.html_name }}" type="text" class="form-control" value="{{ form.description.value }}"id="id_description" placeholder="Description">
       </div>
     </div>
     <div class="form-group">
       <div class="col-lg-offset-2 col-lg-10">
-        <button type="submit" class="btn btn-default">Add forum</button>
+        <button type="submit" class="btn btn-default">Edit this forum</button>
       </div>
     </div>
 </form>
+
 </div>
+
 </div>
 {% include "includes/end_tags.html" %}

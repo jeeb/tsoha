@@ -150,7 +150,7 @@ def add_forum(request):
         else:
             return render(request, 'forums/add_forum.html', {
                 'form': form,
-                'error_message': "Invalid data :< !"
+                'error_message': "Invalid data :< !",
                 })
     else:
         form = SubforumForm()
@@ -160,7 +160,45 @@ def add_forum(request):
 
 @login_required()
 def edit_forum(request, forum_id):
-    return HttpResponse("You're trying to edit a forum.")
+    forum = get_object_or_404(Subforum, pk=forum_id)
+
+    template = loader.get_template('forums/edit_forum.html')
+
+    # TODO: Implement proper error page
+    if not request.user.is_staff:
+        return HttpResponseRedirect(reverse(index))
+
+    if request.method == 'POST':
+        # Try to create a form from the POST data
+        form = SubforumForm(request.POST)
+
+        if form.is_valid():
+            # A forum cannot have itself as its parent
+            if form.cleaned_data['parent'] == forum:
+                return render(request, 'forums/edit_forum.html', {
+                    'forum': forum,
+                    'form': form,
+                    'error_message': "Subforum iself is not a valid parent :< !",
+                    })
+
+            forum.parent      = form.cleaned_data['parent']
+            forum.title       = form.cleaned_data['title']
+            forum.description = form.cleaned_data['description']
+
+            forum.save()
+            return HttpResponseRedirect(reverse(show_forum, args=(forum.id, )))
+        else:
+            return render(request, 'forums/edit_forum.html', {
+                'forum': forum,
+                'form': form,
+                'error_message': "Invalid data :< !",
+                })
+    else:
+        form = SubforumForm(instance=forum)
+        return render(request, 'forums/edit_forum.html', {
+            'forum': forum,
+            'form': form,
+            })
 
 # Shows contents of a single thread
 def show_thread(request, thread_id):
