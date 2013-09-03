@@ -34,3 +34,9 @@ Quick set-up howto:
         * 'python manage.py runserver'
         * Connect to http://127.0.0.1:8000/ for the actual forums, or
           to http://127.0.0.1:8000/admin/ for (low-level) administration.
+
+Regarding heroku:
+    - The herokustuff branch contains what I tested in heroku. Seemed to work after
+      doing a 'python manage.py syncdb'
+    - Heroku tends to ignore non-master branches so to push herokustuff to heroku's
+      master you would have to do 'git push herokustuff:master'
