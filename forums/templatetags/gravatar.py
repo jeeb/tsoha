@@ -23,7 +23,7 @@ class GravatarUrlNode(template.Node):
         except template.VariableDoesNotExist:
             return ''
  
-        default = "http://www.cccp-project.net/pictures/apple.jpg"
+        default = "retro"
         size = 40
  
         gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
