@@ -8,7 +8,7 @@
 
 <div class="well">
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if error_message %}<div class="alert alert-danger"><strong>{{ error_message }}</strong></div>{% endif %}
 
 <form action="{% url 'add_post' thread.id %}" method="post" role="form" class="form-horizontal">
     {% csrf_token %}

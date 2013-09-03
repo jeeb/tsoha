@@ -1,26 +1,42 @@
 {% include "includes/start_tags.html" %}
 {% include "includes/navbar.html" %}
-{% if forum.is_root_cat %}
-<h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' forum.id %}">{{ forum.title }}</a></h1>
-{% else %}
-<h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' forum.parent.id %}">{{ forum.parent.title }}</a> :: <a href="{% url 'show_forum' forum.id %}">{{ forum.title }}</a></h1>
-{% endif %}
+<div class="container theme-showcase">
 
-<h2>Create a new thread in (sub)forum</h2>
+<div class="page-header">
+<h1>Create a new thread in <a href="{% url 'show_forum' forum.id %}">{{ forum.title }}</a></h1>
+</div>
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<div class="well">
 
-<form action="{% url 'add_thread' forum.id %}" method="post">
+{% if error_message %}<div class="alert alert-danger"><strong>{{ error_message }}</strong></div>{% endif %}
+
+<form action="{% url 'add_thread' forum.id %}" method="post" role="form" class="form-horizontal">
     {% csrf_token %}
-    <dl>
-        <dt>Thread title</dt>
-        <dd><input name="title" size="30" type="text" /></dd>
-        <dt>Content</dt>
-        <dd>
-            <textarea name="content" rows=10 cols=40 ></textarea>
-        </dd>
-        <dt><input type="submit" value="Create thread" /></dt>
-        <dt>(You can use RST markup in the post content)</dt>
-    </dl>
+    <div class="form-group">
+      <label for="threadTitle" class="col-lg-2 control-label">Thread Title</label>
+      <div class="col-lg-10">
+        <input name="title" type="text" class="form-control" id="threadTitle" placeholder="Thread Title">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="postContent" class="col-lg-2 control-label">Post Content</label>
+      <div class="col-lg-10">
+        <textarea name="content" class="form-control" rows="10" id="postContent"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-offset-2 col-lg-10">
+        <button type="submit" class="btn btn-default">Create thread</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-offset-2 col-lg-10">
+        (You can use RST markup in the post content)
+      </div>
+    </div>
 </form>
+
+</div>
+
+</div>
 {% include "includes/end_tags.html" %}
