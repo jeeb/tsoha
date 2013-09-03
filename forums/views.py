@@ -301,8 +301,8 @@ def edit_post(request, post_id):
     post   = get_object_or_404(Post, pk=post_id)
     thread = get_object_or_404(Thread, pk=post.thread.id)
 
-    # One can only edit his/her own posts
-    if request.user != post.poster:
+    # One can only edit his/her own posts, exception on staff
+    if (not request.user.is_staff) and (request.user != post.poster):
         return HttpResponse("Not correct user %s , post owned by %s !" % ( request.user.username, post.poster.username ))
 
     # Load the template
@@ -368,8 +368,8 @@ def remove_post(request, post_id):
 
     subforum = thread.subforum
 
-    # One can only edit his/her own posts
-    if request.user != post.poster:
+    # One can only edit his/her own posts, exception on staff
+    if (not request.user.is_staff) and (request.user != post.poster):
         return HttpResponse("Not correct user %s , post owned by %s !" % ( request.user.username, post.poster.username ))
 
     if post.is_op:
