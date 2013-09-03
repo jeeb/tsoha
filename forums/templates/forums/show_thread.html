@@ -21,13 +21,14 @@
     <a href="{% url 'edit_post' p.id %}"><button type="button" class="btn btn-default btn-sm col-xs-1 pull-right">Edit post</button></a>
     </div>
   </div>
-  <div class="row">
-  <div class="panel-body col-xs-1   ">
+  <div class="panel-body col-xs-1">
   <img src="{% gravatar_url p.poster.email %}" alt="{{ p.poster }}'s avatar">
   </div>
   <div class="panel-body">
-    {{ p.content|escape|rst_to_html|safe }}
-  </div>
+    <div class="text-left">
+      {{ p.content|escape|rst_to_html|safe }}
+    </div>
+    <p class="text-right"><strong>{{ p.poster }}</strong> @ {{ p.pub_date }}</p>
   </div>
 </div>
 {% endfor %}

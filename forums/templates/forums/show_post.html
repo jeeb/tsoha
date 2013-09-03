@@ -1,8 +1,33 @@
 {% include "includes/start_tags.html" %}
 {% include "includes/navbar.html" %}
 {% load docutils_stuff %}
+{% load gravatar %}
+<div class="container theme-showcase">
 
-<h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' post.thread.subforum.id %}">{{ post.thread.subforum.title }}</a> :: <a href="{% url 'show_thread' post.thread.id %}">{{ post.thread.title }}</a></h1>
-<h2>{{ post.title }}</h2>
-<div>{{ post.content|escape|rst_to_html|safe }}</div>
+<div class="page-header">
+<h1><a href="{% url 'show_forum' post.thread.subforum.id %}">{{ post.thread.subforum.title }}</a> :: <a href="{% url 'show_thread' post.thread.id %}">{{ post.thread.title }}</a></h1>
+</div>
+
+<div class="well">
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="row">
+    <h3 class="panel-title text-left col-xs-2">{{ post.title }}</h3>
+    </div>
+  </div>
+  <div class="panel-body col-lg-1">
+    <img src="{% gravatar_url post.poster.email %}" alt="{{ post.poster }}'s avatar">
+  </div>
+  <div class="panel-body">
+    <div class="text-left">
+      {{ post.content|escape|rst_to_html|safe }}
+    </div>
+    <p class="text-right"><strong>{{ post.poster }}</strong> @ {{ post.pub_date }}</p>
+  </div>
+</div>
+
+</div>
+
+</div>
 {% include "includes/end_tags.html" %}
