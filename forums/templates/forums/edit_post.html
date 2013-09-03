@@ -1,22 +1,42 @@
 {% include "includes/start_tags.html" %}
 {% include "includes/navbar.html" %}
-<h1><a href="{% url 'index' %}">←</a> <a href="{% url 'show_forum' post.thread.subforum.id %}">{{ post.thread.subforum.title }}</a> :: <a href="{% url 'show_thread' post.thread.id %}">{{ post.thread.title }}</a></h1>
+<div class="container theme-showcase">
 
-<h2>Edit a post in thread</h2>
+<div class="page-header">
+<h1>Edit a post in <a href="{% url 'show_thread' post.thread.id %}">{{ post.thread.title }}</a></h1>
+</div>
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<div class="well">
 
-<form action="{% url 'edit_post' post.id %}" method="post">
+{% if error_message %}<div class="alert alert-danger"><strong>{{ error_message }}</strong></div>{% endif %}
+
+<form action="{% url 'edit_post' post.id %}" method="post" role="form" class="form-horizontal">
     {% csrf_token %}
-    <dl>
-        <dt>Post title</dt>
-        <dd><input name="title" size="30" type="text" value="{{ post.title }}" /></dd>
-        <dt>Content</dt>
-        <dd>
-            <textarea name="content" rows=10 cols=40 >{{ post.content }}</textarea>
-        </dd>
-        <dt><input type="submit" value="Edit post" /></dt>
-        <dt>(You can use RST markup in the post content)</dt>
-    </dl>
+    <div class="form-group">
+      <label for="postTitle" class="col-lg-2 control-label">Post Title</label>
+      <div class="col-lg-10">
+        <input name="title" type="text" class="form-control" id="postTitle" placeholder="Post Title" value="{{ post.title }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="postContent" class="col-lg-2 control-label">Post Content</label>
+      <div class="col-lg-10">
+        <textarea name="content" class="form-control" rows="10" id="postContent">{{ post.content }}</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-offset-2 col-lg-10">
+        <button type="submit" class="btn btn-default">Write post</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-offset-2 col-lg-10">
+        (You can use RST markup in the post content)
+      </div>
+    </div>
 </form>
+
+</div>
+
+</div>
 {% include "includes/end_tags.html" %}
