@@ -35,6 +35,11 @@
         <button type="submit" class="btn btn-default">Edit this forum</button>
       </div>
     </div>
+    <div class="form-group">
+      <div class="col-lg-offset-2 col-lg-10">
+        <a href="{% url 'remove_forum' forum.id %}"><button type="button" class="btn btn-danger">Remove this forum</button></a>
+      </div>
+    </div>
 </form>
 
 </div>

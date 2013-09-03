@@ -200,6 +200,24 @@ def edit_forum(request, forum_id):
             'form': form,
             })
 
+@login_required()
+def remove_forum(request, forum_id):
+    forum = get_object_or_404(Subforum, pk=forum_id)
+
+    # TODO: Implement proper error page
+    if not request.user.is_staff:
+        return HttpResponseRedirect(reverse(index))
+
+    where_to_go = forum.parent
+
+    # Let's hope for no need for recursive crap :V
+    forum.delete()
+
+    if not where_to_go:
+        return HttpResponseRedirect(reverse(index))
+    else:
+        return HttpResponseRedirect(reverse(show_forum, args=(where_to_go.id, )))
+
 # Shows contents of a single thread
 def show_thread(request, thread_id):
     # First try finding the thread and grab its posts ordered older-first
