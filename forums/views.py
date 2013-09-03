@@ -329,17 +329,30 @@ def edit_post(request, post_id):
                     'error_message': "Please do not leave content empty :< !",
                     })
 
-            # If title is empty, edit only the content
-            if not title:
-                post.content = content
-                post.save()
-            else:
-                # Add extra stuff for "if_op"
-                post.title   = title
-                post.content = content
-                post.save()
+            # If content is there, push it to the object
+            post.content = content
 
-            return HttpResponse("Successfully edited post %s." % post_id)
+            # What to do if we do not have a title set?
+            if not title:
+                # If it's an OP, we need to copy the thread title
+                if post.is_op:
+                    title = thread.title
+                # Otherwise we'll just use Re: <thread title>
+                else:
+                    title = "Re: " + thread.title
+            else:
+                # And if we have a title, and the post is an OP
+                # we set the thread title as well to match the
+                # post's
+                if post.is_op:
+                    thread.title = title
+                    thread.save()
+
+            post.title = title
+
+            post.save()
+
+            return HttpResponseRedirect(reverse(show_thread, args=(thread.id,)))
     # And here is what GET n' shit does (endif method == POST)
     else:
         return render(request, 'forums/edit_post.html', {
